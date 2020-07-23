@@ -14,16 +14,15 @@ interface RepositoryParams {
 const Repository: React.FC = () => {
     const { params } = useRouteMatch<RepositoryParams>();
     useEffect(() => {
-        async function loadData(): Promise<void> {
-            const [repository, issues] = await Promise.all([
-                api.get(`repos/${params.repository}`),
-                api.get(`repos/${params.repository}/issues`),
-            ]);
+        api.get(`repos/${params.repository}`).then(response => {
+            console.log(response.data);
+        });
+    }, [params.repository]);
 
-            console.log(repository);
-            console.log(issues);
-        }
-        loadData();
+    useEffect(() => {
+        api.get(`repos/${params.repository}/issues`).then(response => {
+            console.log(response.data);
+        });
     }, [params.repository]);
 
     return (
