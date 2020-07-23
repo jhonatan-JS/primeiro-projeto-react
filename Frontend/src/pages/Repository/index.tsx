@@ -14,16 +14,6 @@ interface RepositoryParams {
 const Repository: React.FC = () => {
     const { params } = useRouteMatch<RepositoryParams>();
     useEffect(() => {
-        //    api.get(`repos/${params.repository}`).then(response => {
-        //        console.log(response.data);
-        //    });
-        // }, [params.repository]);
-        //
-        // useEffect(() => {
-        //    api.get(`repos/${params.repository}/issues`).then(response => {
-        //        console.log(response.data);
-        // });
-
         async function loadData(): Promise<void> {
             const [repository, issues] = await Promise.all([
                 api.get(`repos/${params.repository}`),
