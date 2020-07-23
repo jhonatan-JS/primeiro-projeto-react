@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRouteMatch, Link } from 'react-router-dom';
 import { FiChevronsLeft, FiChevronRight } from 'react-icons/fi';
+import api from '../../services/api';
 
 import logoImg from '../../assets/logo.svg';
 
@@ -11,7 +12,29 @@ interface RepositoryParams {
 }
 
 const Repository: React.FC = () => {
-    // const { params } = useRouteMatch<RepositoryParams>();
+    const { params } = useRouteMatch<RepositoryParams>();
+    useEffect(() => {
+        //    api.get(`repos/${params.repository}`).then(response => {
+        //        console.log(response.data);
+        //    });
+        // }, [params.repository]);
+        //
+        // useEffect(() => {
+        //    api.get(`repos/${params.repository}/issues`).then(response => {
+        //        console.log(response.data);
+        // });
+
+        async function loadData(): Promise<void> {
+            const [repository, issues] = await Promise.all([
+                api.get(`repos/${params.repository}`),
+                api.get(`repos/${params.repository}/issues`),
+            ]);
+
+            console.log(repository);
+            console.log(issues);
+        }
+        loadData();
+    }, [params.repository]);
 
     return (
         <>
